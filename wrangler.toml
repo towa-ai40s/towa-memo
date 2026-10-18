@@ -1,0 +1,9 @@
+# Cloudflareへの指示書。手元での起動と、公開のときの両方で使われる。
+
+name = "towa-memo"
+
+compatibility_date = "2026-10-19"
+
+# 公開するファイルが入っているフォルダ。
+# ⚠️ ここを "." にしてはいけない（2026-08-16に翻訳アプリでAPIキーを露出させた）。
+pages_build_output_dir = "public"
