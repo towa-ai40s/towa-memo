@@ -21,13 +21,19 @@
   .who .name { font-weight: 700; }
   .who .mail { color: var(--sub); font-size: .9rem; }
   .msg { color: var(--sub); font-size: .9rem; margin-top: 16px; min-height: 1.2em; }
+  .memo { margin-top: 16px; }
+  .memo h2 { font-size: 1.1rem; margin: 0 0 12px; }
+  textarea { width: 100%; font: inherit; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; resize: vertical; margin-bottom: 12px; }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  ul#memoList { list-style: none; padding: 0; margin: 16px 0 0; }
+  ul#memoList li.empty { color: var(--sub); font-size: .9rem; }
   [hidden] { display: none !important; }
 </style>
 </head>
 <body>
 <main>
   <h1>とわのメモ帳</h1>
-  <p class="lead">ログインの練習用（認証①）</p>
+  <p class="lead">ログインの練習用（認証②）</p>
 
   <!-- ログインしていないときに見える箱 -->
   <section class="card" id="loggedOut">
@@ -46,6 +52,14 @@
     </div>
     <p>ログインできました。受付で「本人です」と分かってもらえた状態です。</p>
     <button class="ghost" id="logoutBtn">ログアウト</button>
+  </section>
+
+  <!-- ログインしているときだけ見えるメモの箱（保存はデータベースの回＝10/26から） -->
+  <section class="card memo" id="memoBox" hidden>
+    <h2>メモ</h2>
+    <textarea id="memoText" rows="5" placeholder="思いついたことを書く"></textarea>
+    <button class="primary" id="saveBtn" disabled>保存（10/26のデータベースの回から使えます）</button>
+    <ul id="memoList"><li class="empty">まだメモはありません</li></ul>
   </section>
 
   <p class="msg" id="msg"></p>
@@ -67,6 +81,7 @@
     const user = session?.user;
     $("loggedOut").hidden = !!user;
     $("loggedIn").hidden = !user;
+    $("memoBox").hidden = !user;   // メモの箱も、ログインしているときだけ見せる
     if (!user) return;
     const m = user.user_metadata || {};
     $("name").textContent = m.full_name || m.user_name || "（名前なし）";
